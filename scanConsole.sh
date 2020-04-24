@@ -7,7 +7,7 @@ function usage {
 
     - h               Show this usage
     - c <conn>        Path to connectivity config file
-    - s <scan>        Scan Type ( d: digital scan, a: analog scan, th: threshold scan, to: tot scan, default: digital scan )
+    - s <scan>        Scan Type ( digitalscan, analogscan, thresholdscan, totscan )
     - W               Upload data into Local DB
     - d <db>          Path to database config file (default: ${HOME}/.yarr/localdb/${HOSTNAME}_database.json)
     - i <site>        Path to user config file (default: ${HOME}/.yarr/localdb/${HOSTNAME}_site.json)
@@ -55,17 +55,17 @@ if [ ! -e ${path} ]; then
     exit 1
 fi
 
-if [ ${scan} = d ]; then
+if [ ${scan} = digitalscan ]; then
     scan="std_digitalscan"
-elif [ ${scan} = a ]; then
+elif [ ${scan} = analogscan ]; then
     scan="std_analogscan"
-elif [ ${scan} = th ]; then
+elif [ ${scan} = thresholdscan ]; then
     scan="std_thresholdscan"
-elif [ ${scan} = to ]; then
+elif [ ${scan} = totscan ]; then
     scan="std_totscan"
 else
     printf '\033[31m%s\033[m\n' "[LDB ERROR] Something wrong in specified scan."
-    printf '\033[31m%s\033[m\n' "            Specify d (digital scan), a (analog scan), th (threshold scan) or to (tot scan) under -s option."
+    printf '\033[31m%s\033[m\n' "            Specify digitalscan, analogscan, thresholdscan or totscan under -s option."
     exit 1
 fi
 
@@ -100,7 +100,7 @@ fi
 if "${fei4b}"; then
     wget https://cernbox.cern.ch/index.php/s/6vxIgww7RRycn2i/download -O data/result.tar.gz > /dev/null 2>&1
     cd data > /dev/null 2>&1
-    tar xzvf result.tar.gz > dev/null 2>&1
+    tar xzvf result.tar.gz > /dev/null 2>&1
     mv fei4b-result last_scan_cache > /dev/null 2>&1
     rm -rf fei4b-result > /dev/null 2>&1
     rm result.tar.gz > /dev/null 2>&1
@@ -133,8 +133,15 @@ with open(path, 'r') as f: conn_j = json.load(f)
 path = 'chips.txt'
 chips = open(path, 'w')
 for i in conn_j['chips']:
-    if not "serialNumber" in i: sys.exit(1)
-    name = i["serialNumber"]
+    p = i['config']
+    if os.path.isfile(p):
+        with open(p, 'r') as f: chip_j = json.load(f)
+    else:
+        sys.exit(1)
+    if "${fei4b}"=="true":
+        name = chip_j["FE-I4B"]["name"]
+    if "${rd53a}"=="true":
+        name = chip_j["RD53A"]["Parameter"]["Name"]
     # before/after
     if "${fei4b}"=="true":
         p = './data/last_scan_cache/fei4b_test.json'
@@ -156,7 +163,7 @@ for i in conn_j['chips']:
         chip_j["RD53A"]["Parameter"]["Name"] = name
     with open('./data/last_scan/{}.json.after'.format(name), 'w') as f: json.dump(chip_j, f, indent=4)
 
-    chips.write(name)
+    chips.write('{}\n'.format(name))
 p = './data/last_scan_cache/scanLog.json'
 if os.path.isfile(p):
     with open(p, 'r') as f: log_j = json.load(f)
@@ -168,8 +175,7 @@ if os.path.isfile(p):
     with open(p, 'w') as f: json.dump(log_j, f, indent=4)
 EOF
 if [ $? = 1 ]; then
-    printf '\033[31m%s\033[m\n' "[LDB ERROR] No chip serialNumber found in ${conn}"
-    printf '\033[31m%s\033[m\n' "            Enter chips.i.serialNumber."
+    printf '\033[31m%s\033[m\n' "[LDB ERROR] No chip config files found at path written in ${conn}"
     exit 1
 fi
 
