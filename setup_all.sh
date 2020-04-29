@@ -8,6 +8,4 @@ fi
 
 ./download_minimumdb.sh
 
-./start_mongo.sh
-
 exit
