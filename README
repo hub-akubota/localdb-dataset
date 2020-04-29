@@ -37,3 +37,5 @@
   And you can confirm the connection to MongoDB Server by `$ ./mongodb-4.2.6/bin/mongo --port <port>` (e.g. `$ ./mongodb-4.2.6/bin/mongo --port 27017`)
 
   If connection is failed, check log file: mongod.log
+
+  If connection is succeeded, type `show dbs` in mongoshell to check if there is 'localdb' repository.
