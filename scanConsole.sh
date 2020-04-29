@@ -133,6 +133,7 @@ with open(path, 'r') as f: conn_j = json.load(f)
 path = 'chips.txt'
 chips = open(path, 'w')
 for i in conn_j['chips']:
+    if i.get('enable',1)==0: continue
     p = i['config']
     if os.path.isfile(p):
         with open(p, 'r') as f: chip_j = json.load(f)
