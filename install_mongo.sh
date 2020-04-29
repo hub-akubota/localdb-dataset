@@ -14,6 +14,7 @@ while [ -z "${answer}" ];
 do
     read -p "[LDB] > " answer
 done
+echo -e ""
 if [[ ${answer} = "a" ]]; then
     echo -e "[LDB] Start to download MongoDB Package: mongodb-4.2.6"
     wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-4.2.6.tgz
@@ -45,10 +46,10 @@ elif [[ ${answer} = "c" ]]; then
     echo -e ""
     exit 0
 elif [[ ${answer} = "d" ]]; then
-    echo "[LDB] Trial tutorial has not supportet your OS yet."
-    echo "[LDB] Check the download url of tgz file for your OS from https://www.mongodb.com/download-center/community "
-    echo "[LDB] Try to download by 'wget https://###.tgz' in console on your OS and follow the tutorial."
-    echo "[LDB] Probably the tutorial doesn't work, sorry."
+    echo "[LDB WARNING] Trial tutorial has not supportet your OS yet."
+    echo "[LDB WARNING] Check the download url of tgz file for your OS from https://www.mongodb.com/download-center/community "
+    echo "[LDB WARNING] Try to download by 'wget https://###.tgz' in console on your OS and follow the tutorial."
+    echo "[LDB WARNING] Probably the tutorial doesn't work, sorry."
     echo -e ""
     exit 1
 else
