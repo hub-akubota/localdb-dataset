@@ -1,0 +1,39 @@
+# Trial Tutorial
+
+  Supported OS: centOS7, macOS
+
+  Requirements: Python3 (>3.6)
+
+# Scripts
+
+- setup_all.sh
+
+  You can proceed following 3 scripts just by `$ ./setup_all.sh`
+
+- install_mongo.sh
+
+  You can install MongoDB Packages on your local environment (./mongodb-4.2.6) by `$ ./install-mongo.sh`
+
+  Check https://www.mongodb.com/download-center/community to install it manually.
+
+- download_minimumdb.sh
+
+  You can download minimum data-set for Local DB by $./download_minimumdb.sh
+
+# How to start MongoDB Server
+
+  Confirm 'mongod.conf' in localdb-dataset and modify if needed to start MongoDB Server.
+
+  - storage.dbpath
+
+    Specified path to minimum data-set downloaded by ./download_minimumdb.sh
+
+  - net.port
+
+    Specified unused port (default: 27017)
+
+  You can start MongoDB Server by `$ ./mongodb-4.2.6/bin/mongod --config mongod.conf &`
+
+  And you can confirm the connection to MongoDB Server by `$ ./mongodb-4.2.6/bin/mongo --port <port>` (e.g. `$ ./mongodb-4.2.6/bin/mongo --port 27017`)
+
+  If connection is failed, check log file: mongod.log
