@@ -1,5 +1,7 @@
 #!/bin/bash
 
+dir=`pwd`
+
 echo -e "[LDB] Select your OS from the list. (Type a-d from the list)"
 echo -e ""
 echo -e "OS supported by tutorial"
@@ -19,11 +21,13 @@ if [[ ${answer} = "a" ]]; then
     echo -e "[LDB] Start to download MongoDB Package: mongodb-4.2.6"
     wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-4.2.6.tgz
     tar xzvf mongodb-linux-x86_64-rhel62-4.2.6.tgz > /dev/null 2>&1
-    mv mongodb-linux-x86_64-rhel70-4.2.6 mongodb-4.2.6 > /dev/null 2>&1
+    mv mongodb-linux-x86_64-rhel62-4.2.6 mongodb-4.2.6 > /dev/null 2>&1
     rm mongodb-linux-x86_64-rhel62-4.2.6.tgz > /dev/null 2>&1
     echo -e "[LDB] Done."
     echo -e "[LDB] Check README to get how to use commands in ./mongodb-4.2.6/bin"
     echo -e ""
+    echo -e "[LDB] To make a path to commands in ./mongodb-4.2.6/bin you have to excute:"
+    echo -e "      $ export PATH=${dir}/mongodb-4.2.6/bin:\$PATH"
     exit 0
 elif [[ ${answer} = "b" ]]; then
     echo -e "[LDB] Start to download MongoDB Package: mongodb-4.2.6"
@@ -34,6 +38,8 @@ elif [[ ${answer} = "b" ]]; then
     echo -e "[LDB] Done."
     echo -e "[LDB] Check README to get how to use commands in ./mongodb-4.2.6/bin"
     echo -e ""
+    echo -e "[LDB] To make a path to commands in ./mongodb-4.2.6/bin you have to excute:"
+    echo -e "      $ export PATH=${dir}/mongodb-4.2.6/bin:\$PATH"
     exit 0
 elif [[ ${answer} = "c" ]]; then
     echo -e "[LDB] Start to download MongoDB Package: mongodb-4.2.6"
@@ -44,6 +50,8 @@ elif [[ ${answer} = "c" ]]; then
     echo -e "[LDB] Done."
     echo -e "[LDB] Check README to get how to use commands in ./mongodb-4.2.6/bin"
     echo -e ""
+    echo -e "[LDB] To make a path to commands in ./mongodb-4.2.6/bin you have to excute:"
+    echo -e "      $ export PATH=${dir}/mongodb-4.2.6/bin:\$PATH"
     exit 0
 elif [[ ${answer} = "d" ]]; then
     echo "[LDB WARNING] Trial tutorial has not supportet your OS yet."
